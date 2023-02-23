@@ -1,5 +1,5 @@
 class Checkout {
-    fun getTotalPrice(): Int {
-        return 50
+    fun getTotalPrice(item: String): Int {
+        return if (item == "A") 50 else 75
     }
 }
