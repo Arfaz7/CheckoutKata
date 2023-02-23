@@ -11,7 +11,7 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item A`() {
             val expectedPrice = 50
-            val actualPrice = checkout.getTotalPrice('A')
+            val actualPrice = checkout.getItemPrice('A')
 
             assertEquals(expectedPrice, actualPrice)
         }
@@ -19,7 +19,7 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item B`() {
             val expectedPrice = 75
-            val actualPrice = checkout.getTotalPrice('B')
+            val actualPrice = checkout.getItemPrice('B')
 
             assertEquals(expectedPrice, actualPrice)
         }
@@ -27,7 +27,7 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item C`() {
             val expectedPrice = 25
-            val actualPrice = checkout.getTotalPrice('C')
+            val actualPrice = checkout.getItemPrice('C')
 
             assertEquals(expectedPrice, actualPrice)
         }
@@ -35,7 +35,7 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item D`() {
             val expectedPrice = 150
-            val actualPrice = checkout.getTotalPrice('D')
+            val actualPrice = checkout.getItemPrice('D')
 
             assertEquals(expectedPrice, actualPrice)
         }
@@ -43,17 +43,29 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item E`() {
             val expectedPrice = 200
-            val actualPrice = checkout.getTotalPrice('E')
+            val actualPrice = checkout.getItemPrice('E')
 
             assertEquals(expectedPrice, actualPrice)
         }
 
         @Test
-        fun `returns null for a non-existing item`() {
-            val expectedResult = null
-            val actualResult = checkout.getTotalPrice('Z')
+        fun `returns 0 for a non-existing item`() {
+            val expectedResult = 0
+            val actualResult = checkout.getItemPrice('Z')
 
             assertEquals(expectedResult, actualResult)
+        }
+    }
+
+    @Nested
+    inner class MultipleSameItemPrice {
+        @Test
+        fun `return total price for 2 items A`() {
+            val expectedPrice = 100
+            checkout.addItemToBasket('A', 2)
+            val actualPrice = checkout.getTotalPrice()
+
+            assertEquals(expectedPrice, actualPrice)
         }
     }
 }
