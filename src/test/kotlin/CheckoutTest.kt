@@ -11,7 +11,8 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item A`() {
             val expectedPrice = 50
-            val actualPrice = checkout.getItemPrice('A')
+            checkout.addItemToBasket('A', 1)
+            val actualPrice = checkout.getTotalPrice()
 
             assertEquals(expectedPrice, actualPrice)
         }
@@ -19,7 +20,8 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item B`() {
             val expectedPrice = 75
-            val actualPrice = checkout.getItemPrice('B')
+            checkout.addItemToBasket('B', 1)
+            val actualPrice = checkout.getTotalPrice()
 
             assertEquals(expectedPrice, actualPrice)
         }
@@ -27,7 +29,8 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item C`() {
             val expectedPrice = 25
-            val actualPrice = checkout.getItemPrice('C')
+            checkout.addItemToBasket('C', 1)
+            val actualPrice = checkout.getTotalPrice()
 
             assertEquals(expectedPrice, actualPrice)
         }
@@ -35,7 +38,8 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item D`() {
             val expectedPrice = 150
-            val actualPrice = checkout.getItemPrice('D')
+            checkout.addItemToBasket('D', 1)
+            val actualPrice = checkout.getTotalPrice()
 
             assertEquals(expectedPrice, actualPrice)
         }
@@ -43,17 +47,26 @@ class CheckoutTest {
         @Test
         fun `returns total price for one item E`() {
             val expectedPrice = 200
-            val actualPrice = checkout.getItemPrice('E')
+            checkout.addItemToBasket('E', 1)
+            val actualPrice = checkout.getTotalPrice()
 
             assertEquals(expectedPrice, actualPrice)
         }
 
         @Test
-        fun `returns 0 for a non-existing item`() {
+        fun `returns 0 when adding a non-existing item to the basket`() {
             val expectedResult = 0
-            val actualResult = checkout.getItemPrice('Z')
+            checkout.addItemToBasket('Z', 1)
+            val actualResult = checkout.getTotalPrice()
 
             assertEquals(expectedResult, actualResult)
+        }
+
+        @Test
+        internal fun `returns 0 when basket is empty`() {
+            val expectedPrice = 0
+            val actualPrice = checkout.getTotalPrice()
+            assertEquals(expectedPrice, actualPrice)
         }
     }
 
@@ -63,6 +76,32 @@ class CheckoutTest {
         fun `return total price for 2 items A`() {
             val expectedPrice = 100
             checkout.addItemToBasket('A', 2)
+            val actualPrice = checkout.getTotalPrice()
+
+            assertEquals(expectedPrice, actualPrice)
+        }
+    }
+
+    @Nested
+    inner class MultipleDifferentItemPrice {
+        @Test
+        fun `return total price for one item A and one item B`() {
+            val expectedPrice = 125
+            checkout.addItemToBasket('A', 1)
+            checkout.addItemToBasket('B', 1)
+            val actualPrice = checkout.getTotalPrice()
+
+            assertEquals(expectedPrice, actualPrice)
+        }
+
+        @Test
+        fun `return total price when we have one of each item in the basket`() {
+            val expectedPrice = 500
+            checkout.addItemToBasket('A', 1)
+            checkout.addItemToBasket('B', 1)
+            checkout.addItemToBasket('C', 1)
+            checkout.addItemToBasket('D', 1)
+            checkout.addItemToBasket('E', 1)
             val actualPrice = checkout.getTotalPrice()
 
             assertEquals(expectedPrice, actualPrice)
